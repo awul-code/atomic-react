@@ -1,5 +1,6 @@
 
 import Button from './components/Elements/Button/Index';
+import InputForm from './components/Elements/Input/Index';
 function App() {
 
   return (
@@ -11,15 +12,20 @@ function App() {
             Welcome, please enter your details
           </p>
           {/* FORM */}
-          <form action="">
-            <div className="mb-6">
-              <label htmlFor="email" className="block text-slate-700 mb-2" >Email</label>
-              <input type="text" className="text-sm border rouded w-full py-2 px-3 text-slate-700 placeholder: opacity-50" placeholder="example@mail.com" />
-            </div>
-            <div className="mb-6">
-              <label htmlFor="password" className="block text-slate-700 mb-2" >Password</label>
-              <input type="password" className="text-sm border rouded w-full py-2 px-3 text-slate-700 placeholder: opacity-50" placeholder="********" />
-            </div>
+          <form>
+            <InputForm
+              label={"Email"}
+              name={"email"}
+              placeholder={'example@mail.com'}
+              type={"email"}
+            />
+
+            <InputForm
+              label={"Password"}
+              name={"password"}
+              placeholder={'****'}
+              type={"password"}
+            />
 
             <Button type="submit" className='w-full bg-blue-700'>SUBMIT</Button>
           </form>
