@@ -17,17 +17,17 @@ const Header = ({ image }) => {
             <img
                 src={image}
                 alt=""
-                className="p-8 rounded-t-lg aspect-square w-full" />
+                className="p-8 rounded-t-lg aspect-square w-full object-center object-cover " />
         </a>
     )
 }
 
-const Body = ({ title, children }) => {
+const Body = ({ name, children }) => {
     return (
         <div className="px-5 pb-5 h-full">
             <a href="#">
                 <h5 className="text-xl font-semibold tracking-tight text-white">
-                    {title}
+                    {name}
                 </h5>
                 <p className="text-m text-white">
                     {children}
