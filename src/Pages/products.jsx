@@ -2,23 +2,23 @@ import CardProduct from '../components/Fragments/CardProduct/index';
 
 const products = [
     {
-        id: 1,
+        id: "1",
         name: "New Ballance",
-        price: "Rp. 1.000.000",
+        price: 1500000,
         image: "./images/soes.png",
         description: "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Aspernatur similique blanditiis aliquid."
     },
     {
-        id: 2,
+        id: "2",
         name: "Vans",
-        price: "Rp. 3.000.000",
+        price: 200000,
         image: "https://img.freepik.com/free-photo/shoes_1203-8153.jpg?t=st=1737955926~exp=1737959526~hmac=ff17b18c14b27205977bd1683b4ce570f1d14e09b1af734a9b8e195cd77dcf6f&w=740",
         description: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Architecto, quia."
     },
     {
-        id: 3,
+        id: "3",
         name: "Nike Joran",
-        price: "Rp. 3.000.000",
+        price: 3000000,
         image: "https://img.freepik.com/free-photo/close-up-futuristic-sneakers_23-2151005739.jpg?uid=R29316147&ga=GA1.1.556692015.1737943849&semt=ais_hybrid",
         description: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Architecto, quia."
     },
@@ -39,7 +39,7 @@ const ProductPage = () => {
                             <CardProduct.Body name={product.name}>
                                 {product.description}
                             </CardProduct.Body>
-                            <CardProduct.Footer price={product.price} />
+                            <CardProduct.Footer price={(product.price).toLocaleString('id-ID', { style: 'currency', currency: 'IDR' })} />
                         </CardProduct>
                     )
                 })
