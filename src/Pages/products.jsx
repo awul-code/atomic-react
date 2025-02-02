@@ -1,3 +1,5 @@
+import { Link } from 'react-router-dom';
+import Button from '../components/Elements/Button/Index';
 import CardProduct from '../components/Fragments/CardProduct/index';
 
 const products = [
@@ -27,14 +29,38 @@ const products = [
 
 
 const ProductPage = () => {
-    return <>
-        <h1 className='text-center text-8xl font-bold'>Shoes List</h1>
-        <div className="flex justify-center py-5">
+    const email = localStorage.getItem("email")
 
+    const handleLogout = () => {
+        localStorage.removeItem("email")
+        localStorage.removeItem("password")
+        window.location.href = "/login"
+        console.log("oke");
+    }
+
+    return <>
+
+        <nav className='flex justify-between p-[10px] shadow'>
+            <h1 className='text-3xl font-bold'>LOGO</h1>
+            <div className='flex justify-center items-center gap-4'>
+                {
+                    email ?
+                        <>
+                            <p className='text-xl font-bold'>{email}</p>
+                            <Button onClick={handleLogout} type="button" className='bg-red-600 text-white py-2 px-4 rounded text-2xl cursor-pointer'>Logout</Button>
+                        </>
+                        :
+                        window.location.href = "/login"
+                }
+
+            </div>
+        </nav >
+
+        <div className="flex justify-center py-5">
             {
                 products.map((product) => {
                     return (
-                        <CardProduct id={product.id} >
+                        <CardProduct key={product.id} id={product.id} >
                             <CardProduct.Header image={product.image} />
                             <CardProduct.Body name={product.name}>
                                 {product.description}
