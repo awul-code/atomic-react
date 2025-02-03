@@ -1,4 +1,3 @@
-import { Link } from 'react-router-dom';
 import Button from '../components/Elements/Button/Index';
 import CardProduct from '../components/Fragments/CardProduct/index';
 
@@ -47,7 +46,7 @@ const ProductPage = () => {
                     email ?
                         <>
                             <p className='text-xl font-bold'>{email}</p>
-                            <Button onClick={handleLogout} type="button" className='bg-red-600 text-white py-2 px-4 rounded text-2xl cursor-pointer'>Logout</Button>
+                            <Button onClick={handleLogout} type="button" className='bg-red-600 text-white py-2 rounded h-5 cursor-pointer'>Logout</Button>
                         </>
                         :
                         window.location.href = "/login"
@@ -56,21 +55,35 @@ const ProductPage = () => {
             </div>
         </nav >
 
-        <div className="flex justify-center py-5">
-            {
-                products.map((product) => {
-                    return (
-                        <CardProduct key={product.id} id={product.id} >
-                            <CardProduct.Header image={product.image} />
-                            <CardProduct.Body name={product.name}>
-                                {product.description}
-                            </CardProduct.Body>
-                            <CardProduct.Footer price={(product.price).toLocaleString('id-ID', { style: 'currency', currency: 'IDR' })} />
-                        </CardProduct>
-                    )
-                })
-            }
-        </div>
+        <div className="flex  py-5 mt-8 w-[90%]  col-end-9 m-auto">
+
+            <div className='flex flex-wrap flex-1 basis-9/12 justify-around gap-y5'>
+                {
+                    products.map((product) => {
+                        return (
+                            <CardProduct key={product.id} id={product.id} >
+                                <CardProduct.Header image={product.image} />
+                                <CardProduct.Body name={product.name}>
+                                    {product.description}
+                                </CardProduct.Body>
+                                <CardProduct.Footer price={(product.price).toLocaleString('id-ID', { style: 'currency', currency: 'IDR' })} />
+                            </CardProduct>
+                        )
+                    })
+                }
+            </div >
+
+            <div className=' flex-1 w-fulll basis-3/12  p-4 bg-slate-100 rounded shadow'>
+                <h1 className='text-5xl font-bold mb-5 border-b border-slate-400 pb-4'>🛒 Cart </h1>
+
+                <div className='w-full '>
+                    <h1>Helo</h1>
+                </div>
+
+            </div>
+        </div >
+
+
     </>
 }
 
