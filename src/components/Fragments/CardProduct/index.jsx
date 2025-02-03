@@ -4,7 +4,7 @@ import Button from "../../Elements/Button/Index"
 const CardProduct = ({ children }) => {
     return (
         <>
-            <div className="mx-2 w-full max-w-sm border border-gray-700 rounded-lg shadow bg-gray-800 flex flex-col justify-between">
+            <div className="mx-2  w-full  lg:w-xs border border-gray-700 rounded-lg shadow bg-gray-800 flex flex-col justify-between">
                 {children}
             </div>
         </>
@@ -37,11 +37,11 @@ const Body = ({ name, children }) => {
     )
 }
 
-const Footer = ({ price }) => {
+const Footer = ({ price, handleAddToCart, id }) => {
     return (
         <div className="flex items-center justify-between px-5 pb-5 ">
             <span className="text-xl font-bold text-white">{price}</span>
-            <Button className="bg-blue-600">Add to chart</Button>
+            <Button className="bg-blue-600" onClick={() => handleAddToCart(id)}>Add to chart</Button>
         </div>
     )
 }
