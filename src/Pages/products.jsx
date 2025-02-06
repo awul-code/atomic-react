@@ -1,6 +1,8 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Button from '../components/Elements/Button/Index';
 import CardProduct from '../components/Fragments/CardProduct/index';
+import { useRef } from 'react';
+
 
 const products = [
     {
@@ -85,6 +87,51 @@ const ProductPage = () => {
     };
 
 
+    // Calculate the total price of all items in the cart
+    // We use the reduce method to iterate over the cart array
+    // and sum up the price of each item
+    // The initial value of the total is 0
+    // The function passed to reduce takes two arguments: the current total and the current item in the array
+    // We use the find method to get the product object from the products array
+    // that matches the id of the current item in the cart
+    // We then multiply the quantity of the item by its price
+    // and add that to the total
+    // Finally, we use the toLocaleString method to format the total as a currency
+    // with the id-ID locale and IDR currency
+    const totalPrice = cart.reduce((total, item) => {
+        const product = products.find((product) => product.id === item.id)
+        return total + (item.qty * product.price)
+    }, 0).toLocaleString('id-ID', { style: 'currency', currency: 'IDR' })
+
+    const totalPriceRef = useRef(null)
+    console.log(totalPriceRef.current);
+
+    // This useEffect hook is used to dynamically show or hide the total price
+    // of the items in the cart based on the length of the cart array.
+    // 
+    // The function passed to useEffect takes a dependency array as its second argument.
+    // The dependency array is an array of values that the function depends on.
+    // Whenever any value in the dependency array changes, the function is re-run.
+    // In this case, the dependency array is [cart], so the function will be re-run
+    // whenever the cart array changes.
+    // 
+    // The function itself simply checks if the length of the cart array is greater than 0.
+    // If it is, the function sets the display property of the totalPriceRef.current element
+    // to "block", which makes it visible. If the length is 0, the function sets the display
+    // property to "none", which makes it invisible.
+
+    useEffect(() => {
+        if (cart.length > 0) {
+            // If the cart is not empty, show the total price
+            totalPriceRef.current.style.display = "table-footer-group"
+            totalPriceRef.current.style.width = "100%"
+        } else {
+            // If the cart is empty, hide the total price
+            totalPriceRef.current.style.display = "none"
+        }
+    }, [cart])
+
+
     return <>
 
         <nav className='flex justify-between p-[10px] shadow'>
@@ -163,18 +210,13 @@ const ProductPage = () => {
                                     })
                                 }
                             </tbody >
-                            <tfoot>
-                                <tr className='bg-gray-200 text-gray-600 uppercase text-sm leading-normal'>
+                            <tfoot ref={totalPriceRef}>
+                                <tr className='bg-gray-200 text-gray-600 uppercase text-sm leading-normal '>
 
-                                    <th colSpan={3} className="py-3 px-6 text-left">Total</th>
+                                    <th colSpan={3} className="py-3 px-6 text-left">Total Price</th>
 
                                     <th className="py-3 px-6 text-left font-bold text-green-500">
-                                        {
-                                            cart.reduce((total, item) => {
-                                                const product = products.find((product) => product.id === item.id)
-                                                return total + (item.qty * product.price)
-                                            }, 0).toLocaleString('id-ID', { style: 'currency', currency: 'IDR' })
-                                        }
+                                        {totalPrice}
                                     </th>
                                 </tr>
                             </tfoot>
