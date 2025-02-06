@@ -2,7 +2,7 @@ const Button = ({ children, type, className = "bg-slate-900", onClick }) => {
     return <>
         < button
             type={type}
-            className={`h-10 px-6 font-semibold rounded-md ${className} text-white cursor-pointer`}
+            className={`h-10 px-6 font-semibold rounded-md ${className} text-white cursor-pointer `}
             onClick={onClick}>
             {children}
         </button>
