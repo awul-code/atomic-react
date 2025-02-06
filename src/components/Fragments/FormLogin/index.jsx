@@ -1,5 +1,9 @@
 import InputForm from '../../Elements/Input/Index';
 import Button from '../../Elements/Button/Index';
+import { useEffect, useRef } from 'react';
+
+
+
 
 const FormLogin = () => {
 
@@ -12,6 +16,12 @@ const FormLogin = () => {
         window.location.href = "/products";
     }
 
+    const emailRef = useRef(null)
+
+    useEffect(() => {
+        emailRef.current.focus();
+    }, [])
+
     return (
         <>
             <form onSubmit={handleLogin}>
@@ -20,6 +30,7 @@ const FormLogin = () => {
                     name={"email"}
                     placeholder={'example@mail.com'}
                     type={"email"}
+                    ref={emailRef}
                 />
 
                 <InputForm
