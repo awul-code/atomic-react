@@ -2,39 +2,14 @@ import { useEffect, useState } from 'react';
 import Button from '../components/Elements/Button/Index';
 import CardProduct from '../components/Fragments/CardProduct/index';
 import { useRef } from 'react';
-
-
-const products = [
-    {
-        id: "1",
-        name: "New Ballance",
-        price: 150000,
-        image: "./images/soes.png",
-        description: "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Aspernatur similique blanditiis aliquid."
-    },
-    {
-        id: "2",
-        name: "Vans",
-        price: 200000,
-        image: "https://img.freepik.com/free-photo/shoes_1203-8153.jpg?t=st=1737955926~exp=1737959526~hmac=ff17b18c14b27205977bd1683b4ce570f1d14e09b1af734a9b8e195cd77dcf6f&w=740",
-        description: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Architecto, quia."
-    },
-    {
-        id: "3",
-        name: "Nike Joran",
-        price: 300000,
-        image: "https://img.freepik.com/free-photo/close-up-futuristic-sneakers_23-2151005739.jpg?uid=R29316147&ga=GA1.1.556692015.1737943849&semt=ais_hybrid",
-        description: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Architecto, quia."
-    },
-
-]
+import { getProducts } from '../services/product.service';
 
 
 const ProductPage = () => {
     const email = localStorage.getItem("email")
-
     const [cart, setCart] = useState([]);
-
+    const [totalPrice, setTotalPrice] = useState(0);
+    const [products, setProducts] = useState([])
 
     /**
      * This function is called when the user clicks the "Logout" button.
@@ -98,13 +73,29 @@ const ProductPage = () => {
     // and add that to the total
     // Finally, we use the toLocaleString method to format the total as a currency
     // with the id-ID locale and IDR currency
-    const totalPrice = cart.reduce((total, item) => {
-        const product = products.find((product) => product.id === item.id)
-        return total + (item.qty * product.price)
-    }, 0).toLocaleString('id-ID', { style: 'currency', currency: 'IDR' })
+
+    // .toLocaleString('en-US', { style: 'currency', currency: 'USD' })
 
     const totalPriceRef = useRef(null)
-    console.log(totalPriceRef.current);
+
+
+    useEffect(() => {
+        setCart(JSON.parse(localStorage.getItem('cart')) || [])
+        setTotalPrice(JSON.parse(localStorage.getItem('totalPrice')) || 0)
+    }, [])
+
+    useEffect(() => {
+        if (products.length && cart.length > 0) {
+            const totalPrice = cart.reduce((total, item) => {
+                const product = products.find((product) => product.id === item.id)
+                return total + (item.qty * product.price)
+            }, 0)
+            setTotalPrice(totalPrice)
+            localStorage.setItem('cart', JSON.stringify(cart))
+            localStorage.setItem('totalPrice', JSON.stringify(totalPrice))
+        }
+    }, [cart])
+
 
     // This useEffect hook is used to dynamically show or hide the total price
     // of the items in the cart based on the length of the cart array.
@@ -132,6 +123,12 @@ const ProductPage = () => {
     }, [cart])
 
 
+    useEffect(() => {
+        getProducts((data) => {
+            setProducts(data)
+        })
+    }, [])
+
     return <>
 
         <nav className='flex justify-between p-[10px] shadow'>
@@ -153,17 +150,17 @@ const ProductPage = () => {
         <div className="flex  py-5 mt-8 w-[90%]  col-end-9 m-auto">
 
             <div className='flex flex-wrap flex-1 basis-9/12 gap-y5 justify-around gap-y-10'>
-                {
+                {products.length > 0 &&
                     products.map((product) => {
                         return (
                             <CardProduct key={product.id}>
                                 <CardProduct.Header image={product.image} />
-                                <CardProduct.Body name={product.name}>
+                                <CardProduct.Body name={product.title}>
                                     {product.description}
                                 </CardProduct.Body>
 
                                 <CardProduct.Footer
-                                    price={(product.price).toLocaleString('id-ID', { style: 'currency', currency: 'IDR' })}
+                                    price={(product.price).toLocaleString('en-US', { style: 'currency', currency: 'USD' })}
                                     id={product.id}
                                     handleAddToCart={handleAddToCart}
                                 />
@@ -196,15 +193,15 @@ const ProductPage = () => {
                                 </tr>
                             </thead>
                             <tbody className="text-gray-600 text-sm font-light">
-                                {
+                                {products.length > 0 &&
                                     cart.map((item) => {
                                         const product = products.find((product) => product.id === item.id)
                                         return (
                                             <tr key={item.id} className="border-b border-gray-200 hover:bg-gray-100" >
-                                                <td className="py-3 px-6 text-left" > {product.name}</td>
-                                                <td className="py-3 px-6 text-left">{product.price.toLocaleString('id-ID', { style: 'currency', currency: 'IDR' })}</td >
+                                                <td className="py-3 px-6 text-left" > {product.title.substring(0, 10)}...</td>
+                                                <td className="py-3 px-6 text-left">{product.price.toLocaleString('en-US', { style: 'currency', currency: 'USD' })}</td >
                                                 <td className="py-3 px-6 text-left" > {item.qty}</td >
-                                                <td className="py-3 px-6 text-left" > {(item.qty * product.price).toLocaleString('id-ID', { style: 'currency', currency: 'IDR' })}</td >
+                                                <td className="py-3 px-6 text-left" > {(item.qty * product.price).toLocaleString('en-US', { style: 'currency', currency: 'USD' })}</td >
                                             </tr >
                                         )
                                     })
@@ -212,11 +209,9 @@ const ProductPage = () => {
                             </tbody >
                             <tfoot ref={totalPriceRef}>
                                 <tr className='bg-gray-200 text-gray-600 uppercase text-sm leading-normal '>
-
                                     <th colSpan={3} className="py-3 px-6 text-left">Total Price</th>
-
                                     <th className="py-3 px-6 text-left font-bold text-green-500">
-                                        {totalPrice}
+                                        {totalPrice.toLocaleString('en-US', { style: 'currency', currency: 'USD' })}
                                     </th>
                                 </tr>
                             </tfoot>
