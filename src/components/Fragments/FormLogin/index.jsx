@@ -1,36 +1,45 @@
 import InputForm from '../../Elements/Input/Index';
 import Button from '../../Elements/Button/Index';
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import { login } from '../../../services/auth.service';
 
 
 
 
 const FormLogin = () => {
+    const [loginFailed, setLoginFailed] = useState("")
 
     const handleLogin = (e) => {
         e.preventDefault()
-        const email = e.target.email.value;
-        const password = e.target.password.value;
-        localStorage.setItem("email", email)
-        localStorage.setItem("password", password)
-        window.location.href = "/products";
+        const data = {
+            username: e.target.username.value,
+            password: e.target.password.value
+        }
+        login(data, (status, res) => {
+            if (status) {
+                localStorage.setItem("token", res)
+                window.location.href = "/products"
+            } else {
+                setLoginFailed(res.response.data)
+            }
+        })
     }
 
-    const emailRef = useRef(null)
+    const usernameRef = useRef(null)
 
     useEffect(() => {
-        emailRef.current.focus();
+        usernameRef.current.focus();
     }, [])
 
     return (
         <>
             <form onSubmit={handleLogin}>
                 <InputForm
-                    label={"Email"}
-                    name={"email"}
-                    placeholder={'example@mail.com'}
-                    type={"email"}
-                    ref={emailRef}
+                    label={"username"}
+                    name={"username"}
+                    placeholder={'username...'}
+                    type={"text"}
+                    ref={usernameRef}
                 />
 
                 <InputForm
@@ -42,6 +51,8 @@ const FormLogin = () => {
 
                 <Button type="submit" className='w-full bg-blue-700'>Login</Button>
             </form>
+
+            {loginFailed && <p className='text-sm text-red-500 mt-5'>{loginFailed}</p>}
         </>
     )
 }
