@@ -17,7 +17,7 @@ const Header = ({ image }) => {
             <img
                 src={image}
                 alt=""
-                className="p-8 rounded-t-lg aspect-square w-full object-center object-cover " />
+                className="p-8 rounded-t-lg w-full  object-fit h-80 w-ful" />
         </a>
     )
 }
@@ -26,11 +26,11 @@ const Body = ({ name, children }) => {
     return (
         <div className="px-5 pb-5 h-full">
             <a href="#">
-                <h5 className="text-xl font-semibold tracking-tight text-white">
-                    {name}
+                <h5 className="text-xl font-semibold tracking-tight text-white mb-4">
+                    {name.substring(0, 30)}....
                 </h5>
                 <p className="text-m text-white">
-                    {children}
+                    {children.substring(0, 100)}....
                 </p>
             </a>
         </div>
