@@ -7,6 +7,9 @@ import useDebounce from '../Hooks/useDebounce';
 import TableCart from '../components/Fragments/TableCart/index';
 import Navbar from '../components/Layouts/Navbar';
 import Cart from '../components/Elements/Cart/index';
+import { useDispatch } from 'react-redux';
+import { setBreadcrumb } from '../redux/slices/breadcrumbSlice';
+import Breadcrumb from '../components/Fragments/Breadcrumb';
 
 const ProductPage = () => {
     const debounce = useDebounce()
@@ -14,6 +17,7 @@ const ProductPage = () => {
     const [results, setResults] = useState([]);
     const [products, setProducts] = useState([])
     const DELAY = 500
+    const dispatch = useDispatch()
     useLogin()
 
     useEffect(() => {
@@ -42,8 +46,14 @@ const ProductPage = () => {
         debouncedHandleSearch();
     }, [query]);
 
+
+    useEffect(() => {
+        dispatch(setBreadcrumb({ products: 'Products' }));
+    }, [dispatch]);
+
     return <>
         <Navbar />
+        <Breadcrumb />
         <div className='w-[90%] m-auto'>
             <div className="w-[40%] mt-8 m-auto">
                 <SearchInputProduct onChange={(e) => setQuery(e.target.value)} />
