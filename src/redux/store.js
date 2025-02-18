@@ -1,9 +1,11 @@
 import { configureStore } from "@reduxjs/toolkit";
 import cartSlice from "./slices/cartSlice";
+import breadcrumbSlice from "./slices/breadcrumbSlice";
 
 const store = configureStore({
     reducer: {
-        cart: cartSlice
+        cart: cartSlice,
+        breadcrumb: breadcrumbSlice
     }
 })
 
@@ -14,3 +16,5 @@ store.subscribe(() => {
 });
 
 export default store
+
+
