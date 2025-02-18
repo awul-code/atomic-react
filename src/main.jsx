@@ -10,12 +10,13 @@ import ProfilePage from './Pages/profile.jsx'
 import DetailProductPage from './Pages/detailProduct.jsx'
 import { Provider } from 'react-redux'
 import store from './redux/store.js'
+import HomePage from './Pages/home.jsx'
 
 
 
 const router = createBrowserRouter([
   {
-    path: "/", element: <div>Hello world</div>,
+    path: "/", element: <HomePage />,
     errorElement: <ErrorPage />
   },
   {
@@ -31,7 +32,7 @@ const router = createBrowserRouter([
     path: "/profile", element: <ProfilePage />
   },
   {
-    path: `products/:id`, element: <DetailProductPage />
+    path: `/products/:id`, element: <DetailProductPage />
   },
 ])
 
