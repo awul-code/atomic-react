@@ -12,6 +12,9 @@ const Navbar = () => {
         <>
             <nav className='flex justify-between p-[10px] shadow'>
                 <h1 className='text-3xl font-bold'>LOGO</h1>
+                <ul className="flex items-center justify-center hover:text-sky-400 font-light">
+                    <li><Link to={'/products'}>Products</Link></li>
+                </ul>
                 <div className='flex justify-center items-center gap-4'>
                     {
                         username ?
