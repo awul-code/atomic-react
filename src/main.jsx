@@ -8,6 +8,10 @@ import ProductPage from './Pages/products';
 import './index.css'
 import ProfilePage from './Pages/profile.jsx'
 import DetailProductPage from './Pages/detailProduct.jsx'
+import { Provider } from 'react-redux'
+import store from './redux/store.js'
+
+
 
 const router = createBrowserRouter([
   {
@@ -33,10 +37,11 @@ const router = createBrowserRouter([
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <RouterProvider
-      router={router}
-      future={{ v7_startTransition: true, v7_relativeSplatPath: true }}
-    />
-
+    <Provider store={store}>
+      <RouterProvider
+        router={router}
+        future={{ v7_startTransition: true, v7_relativeSplatPath: true }}
+      />
+    </Provider>
   </StrictMode>,
 )
