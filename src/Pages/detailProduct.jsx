@@ -2,12 +2,16 @@ import { useEffect, useState } from "react"
 import { useParams } from "react-router-dom"
 import { getDetailProducts } from "../services/product.service"
 import Button from "../components/Elements/Button/Index"
+import { useDispatch } from "react-redux"
+import { addToCart } from "../redux/slices/cartSlice"
+import Navbar from '../components/Layouts/Navbar';
 
 const DetailProductPage = () => {
     const { id } = useParams()
     const [product, setProduct] = useState({})
     const [rate, setRate] = useState(0)
     const [stock, setStock] = useState(0)
+    const dispatch = useDispatch()
 
     useEffect(() => {
         getDetailProducts(id, (data) => {
@@ -20,7 +24,18 @@ const DetailProductPage = () => {
 
 
 
+
+
     return (<>
+
+        <Navbar />
+
+        <nav className="breadcrumb w-[90%] bg-slate-100 mx-auto my-3">
+            <ol>
+                <li>Home</li>
+            </ol>
+        </nav>
+
         {Object.keys(product).length > 0 && (
             <div className="flex justify-center items-center">
                 <article className=" rounded-lg shadow-sm transition hover:shadow-lg w-[80%] mt-10 flex">
@@ -67,7 +82,11 @@ const DetailProductPage = () => {
                             {product.description}
                         </p>
                         <p className="my-5 text-xs">Stock: {stock}</p>
-                        <Button className="bg-blue-600 text-xs">Add To Chart</Button>
+                        <Button
+                            className="bg-blue-600 text-xs"
+                            onClick={() => dispatch(addToCart({ id, qty: 1 }))}>
+                            Add To Chart
+                        </Button>
                     </div>
 
 
