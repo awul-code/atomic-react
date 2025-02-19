@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+
 const AuthLayout = ({ children, title, type }) => {
     return (<>
         <div className='bg-slate-200 h-screen flex justify-center items-center'>
