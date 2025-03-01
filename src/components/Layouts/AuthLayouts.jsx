@@ -1,8 +1,11 @@
+import { useContext } from 'react';
 import { Link } from 'react-router-dom';
+import { DarkMode } from '../../context/DarkMode';
 
 const AuthLayout = ({ children, title, type }) => {
+    const { isDarkMode } = useContext(DarkMode)
     return (<>
-        <div className='bg-slate-200 h-screen flex justify-center items-center'>
+        <div className={`bg-slate-200 h-screen flex justify-center items-center ${isDarkMode && "bg-slate-900"}`} >
             <div className="w-full max-w-xs bg-slate-100 p-7 rounded">
                 <h1 className="text-3xl text-blue-600 font-bold mb-8">{title}</h1>
                 <p className="font-medium text-slate-500 mb-8">
