@@ -34,6 +34,7 @@ const DetailProductPage = () => {
 
     const handleAddToCart = () => {
         dispatch(addToCart({ id: product.id, qty: 1 }));
+        alert("Berhasil manambahkan barang ke keranjang")
     };
 
     return (

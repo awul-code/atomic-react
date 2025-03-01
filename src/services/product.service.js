@@ -1,19 +1,22 @@
 import axios from "axios"
 
-export const getProducts = (callback) => {
-    axios.get("https://fakestoreapi.com/products").then((res) => {
-        callback(res.data)
-    }).catch((err) => {
-        console.log(err)
-    })
+export const getProducts = async (callback) => {
+    try {
+        const respose = await axios.get("https://fakestoreapi.com/products")
+        callback(respose.data)
+    } catch (error) {
+        callback(null, error)
+    }
 }
 
-export const getDetailProducts = (id, callback) => {
-    axios.get(`https://fakestoreapi.com/products/${id}`).then((res) => {
-        callback(res.data)
-    }).catch((err) => {
-        console.log(err)
-    })
+export const getDetailProducts = async (id, callback) => {
+
+    try {
+        const response = await axios.get(`https://fakestoreapi.com/products/${id}`)
+        callback(response.data)
+    } catch (error) {
+        callback(null, error)
+    }
 }
 
 

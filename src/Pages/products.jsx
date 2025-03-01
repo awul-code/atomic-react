@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import CardProduct from '../components/Fragments/CardProduct/index';
-import { useLogin } from '../Hooks/useLogin';
 import SearchInputProduct from '../components/Elements/SearchInput';
 import { getProducts, searchProducts } from '../services/product.service';
 import useDebounce from '../Hooks/useDebounce';
@@ -10,6 +9,7 @@ import Cart from '../components/Elements/Cart/index';
 import { useDispatch } from 'react-redux';
 import { setBreadcrumb } from '../redux/slices/breadcrumbSlice';
 import Breadcrumb from '../components/Fragments/Breadcrumb';
+import { useLogin } from '../Hooks/useLogin';
 
 const ProductPage = () => {
     const debounce = useDebounce()
@@ -18,7 +18,8 @@ const ProductPage = () => {
     const [products, setProducts] = useState([])
     const DELAY = 500
     const dispatch = useDispatch()
-    useLogin()
+    const username = useLogin()
+
 
     useEffect(() => {
         getProducts((data) => {
